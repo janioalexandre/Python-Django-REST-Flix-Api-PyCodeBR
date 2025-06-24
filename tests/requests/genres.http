@@ -1,0 +1,43 @@
+@baseUrl = http://localhost:8000
+
+###
+# @name listarGeneros
+GET {{baseUrl}}/genres/
+Content-Type: application/json
+
+###
+# @name criarGenero
+POST {{baseUrl}}/genres/
+Content-Type: application/json
+
+{
+    "name": "Novo Ficção Cientifica"
+}
+
+###
+# @name obterGenero
+GET {{baseUrl}}/genres/7/
+Content-Type: application/json
+
+###
+# @name atualizarGenero
+PUT {{baseUrl}}/genres/6/
+Content-Type: application/json
+
+{
+    "name": "Ficção"
+}
+
+###
+# @name atualizarParcialGenero
+PATCH {{baseUrl}}/genres/6/
+Content-Type: application/json
+
+{
+    "name": "Drama"
+}
+
+###
+# @name deletarGenero
+DELETE {{baseUrl}}/genres/6/
+Content-Type: application/json
