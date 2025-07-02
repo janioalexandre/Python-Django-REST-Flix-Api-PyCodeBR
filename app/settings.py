@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'genres',
+    'actors',
 ]
 
 MIDDLEWARE = [
@@ -115,6 +116,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.BrowsableAPIRenderer',
         'rest_framework.renderers.JSONRenderer',
     ],
     'DEFAULT_PARSER_CLASSES': [
