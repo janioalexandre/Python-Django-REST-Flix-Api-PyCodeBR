@@ -13,7 +13,7 @@ class Review(models.Model):
     comment = models.TextField(blank=True, null=True)
     
     def __str__(self):
-        return self.movie
+        return self.movie.title + ' - ' + str(self.stars) + ' stars'
     
     class Meta:
         verbose_name = 'Review'
