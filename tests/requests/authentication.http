@@ -1,0 +1,64 @@
+@baseUrl = http://localhost:8000
+
+###
+# @name obterToken
+POST {{baseUrl}}/api/v1/authentication/token
+Content-Type: application/json
+
+{
+    "username": "janioalexandre",
+    "password": ""
+}
+
+###
+@accessToken = {{ obterToken.response.body.access }}
+@refreshToken = {{ obterToken.response.body.refresh }}
+
+###
+# @name refreshToken
+POST {{baseUrl}}/api/v1/authentication/refresh/
+Content-Type: application/json
+
+{
+    "refresh": "{{refreshToken}}"
+}
+
+###
+# @name testarTokenGenres
+GET {{baseUrl}}/api/v1/genres/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name testarTokenMovies
+GET {{baseUrl}}/api/v1/movies/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name testarTokenActors
+GET {{baseUrl}}/api/v1/actors/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name testarTokenReviews
+GET {{baseUrl}}/api/v1/reviews/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name criarGeneroComToken
+POST {{baseUrl}}/api/v1/genres/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "name": "Teste com Token"
+}
+
+###
+# @name testarTokenExpirado
+GET {{baseUrl}}/api/v1/genres/
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjAwMDAwMDAwLCJqdGkiOiJ0ZXN0IiwidXNlcl9pZCI6MX0.invalid_token

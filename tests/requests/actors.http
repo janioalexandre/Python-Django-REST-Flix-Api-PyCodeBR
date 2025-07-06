@@ -1,0 +1,85 @@
+@baseUrl = http://localhost:8000
+
+###
+# @name autenticacao
+POST {{baseUrl}}/api/v1/authentication/token
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin123"
+}
+
+###
+@accessToken = {{ autenticacao.response.body.access }}
+
+###
+# @name listarAtores
+GET {{baseUrl}}/api/v1/actors/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name criarAtor
+POST {{baseUrl}}/api/v1/actors/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "name": "Leonardo DiCaprio",
+    "nationality": "American"
+}
+
+###
+# @name criarAtorBrasileiro
+POST {{baseUrl}}/api/v1/actors/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "name": "Wagner Moura",
+    "nationality": "Brazilian"
+}
+
+###
+# @name obterAtor
+GET {{baseUrl}}/api/v1/actors/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name atualizarAtor
+PUT {{baseUrl}}/api/v1/actors/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "name": "Leonardo Wilhelm DiCaprio",
+    "nationality": "American"
+}
+
+###
+# @name atualizarParcialAtor
+PATCH {{baseUrl}}/api/v1/actors/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "nationality": "USA"
+}
+
+###
+# @name deletarAtor
+DELETE {{baseUrl}}/api/v1/actors/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name criarAtorSemToken
+POST {{baseUrl}}/api/v1/actors/
+Content-Type: application/json
+
+{
+    "name": "Teste Sem Token",
+    "nationality": "Test"
+}

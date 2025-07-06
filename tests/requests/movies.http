@@ -1,0 +1,112 @@
+@baseUrl = http://localhost:8000
+
+###
+# @name autenticacao
+POST {{baseUrl}}/api/v1/authentication/token
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin123"
+}
+
+###
+@accessToken = {{ autenticacao.response.body.access }}
+
+###
+# @name listarFilmes
+GET {{baseUrl}}/api/v1/movies/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name criarFilme
+POST {{baseUrl}}/api/v1/movies/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "title": "Inception",
+    "genre": 1,
+    "release_date": "2010-07-16",
+    "actors": [1, 2],
+    "resume": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O."
+}
+
+###
+# @name criarFilmeBrasileiro
+POST {{baseUrl}}/api/v1/movies/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "title": "Cidade de Deus",
+    "genre": 2,
+    "release_date": "2002-08-30",
+    "actors": [3],
+    "resume": "Na Cidade de Deus, favela carioca conhecida por sua alta taxa de criminalidade, Buscapé é um jovem pobre, negro e muito sensível, que cresce em um ambiente opressor."
+}
+
+###
+# @name obterFilme
+GET {{baseUrl}}/api/v1/movies/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name atualizarFilme
+PUT {{baseUrl}}/api/v1/movies/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "title": "Inception: The Dream",
+    "genre": 1,
+    "release_date": "2010-07-16",
+    "actors": [1, 2],
+    "resume": "A thief who steals corporate secrets through dream-sharing technology must plant an idea instead of stealing one."
+}
+
+###
+# @name atualizarParcialFilme
+PATCH {{baseUrl}}/api/v1/movies/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "title": "Inception: Director's Cut"
+}
+
+###
+# @name deletarFilme
+DELETE {{baseUrl}}/api/v1/movies/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name criarFilmeDataInvalida
+POST {{baseUrl}}/api/v1/movies/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "title": "Filme Antigo",
+    "genre": 1,
+    "release_date": "1989-01-01",
+    "actors": [1],
+    "resume": "Este filme deve falhar por ter data anterior a 1990."
+}
+
+###
+# @name criarFilmeResumoLongo
+POST {{baseUrl}}/api/v1/movies/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "title": "Filme com Resumo Longo",
+    "genre": 1,
+    "release_date": "2020-01-01",
+    "actors": [1],
+    "resume": "Este é um resumo muito longo que deve falhar na validação porque tem mais de 200 caracteres. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+}

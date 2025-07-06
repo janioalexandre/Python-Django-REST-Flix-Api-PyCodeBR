@@ -1,0 +1,125 @@
+@baseUrl = http://localhost:8000
+
+###
+# @name autenticacao
+POST {{baseUrl}}/api/v1/authentication/token
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin123"
+}
+
+###
+@accessToken = {{ autenticacao.response.body.access }}
+
+###
+# @name listarReviews
+GET {{baseUrl}}/api/v1/reviews/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name criarReview
+POST {{baseUrl}}/api/v1/reviews/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "movie": 1,
+    "stars": 5,
+    "comment": "Excelente filme! Uma obra-prima do cinema."
+}
+
+###
+# @name criarReviewNota4
+POST {{baseUrl}}/api/v1/reviews/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "movie": 1,
+    "stars": 4,
+    "comment": "Muito bom filme, recomendo para todos."
+}
+
+###
+# @name criarReviewSemComentario
+POST {{baseUrl}}/api/v1/reviews/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "movie": 2,
+    "stars": 3
+}
+
+###
+# @name obterReview
+GET {{baseUrl}}/api/v1/reviews/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name atualizarReview
+PUT {{baseUrl}}/api/v1/reviews/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "movie": 1,
+    "stars": 4,
+    "comment": "Filme muito bom, mas não é perfeito. Vale a pena assistir!"
+}
+
+###
+# @name atualizarParcialReview
+PATCH {{baseUrl}}/api/v1/reviews/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "stars": 5
+}
+
+###
+# @name deletarReview
+DELETE {{baseUrl}}/api/v1/reviews/1/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+# @name criarReviewNotaInvalida
+POST {{baseUrl}}/api/v1/reviews/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "movie": 1,
+    "stars": 6,
+    "comment": "Esta review deve falhar porque a nota é maior que 5."
+}
+
+###
+# @name criarReviewNotaNegativa
+POST {{baseUrl}}/api/v1/reviews/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "movie": 1,
+    "stars": -1,
+    "comment": "Esta review deve falhar porque a nota é negativa."
+}
+
+###
+# @name criarReviewFilmeInexistente
+POST {{baseUrl}}/api/v1/reviews/
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "movie": 999,
+    "stars": 5,
+    "comment": "Esta review deve falhar porque o filme não existe."
+}
